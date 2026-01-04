@@ -40,6 +40,15 @@
 [SECTION_3_CONTENT]
 <!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
 
+## Testing Strategy
+
+> Define testing standards BEFORE writing first test. Prevents inconsistent mock patterns and technical debt.
+
+- **Minimum Coverage**: [COVERAGE_THRESHOLD, e.g., 70% lines, 60% branches]
+- **Mock Pattern**: [STANDARD_MOCK_APPROACH, e.g., jest.mockResolvedValue for async, no mixed patterns]
+- **Critical Paths**: [MUST_TEST_SCENARIOS, e.g., auth flow, payment, data persistence]
+- **Test Ratio Target**: ≥0.8 tests per service (baseline reference: cognitive-twin 0.36 → debt)
+
 ## Governance
 <!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 

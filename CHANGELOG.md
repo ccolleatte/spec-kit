@@ -7,6 +7,20 @@ All notable changes to the Specify CLI and templates are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- Tests now REQUIRED by default in `tasks-template.md` (TDD approach). Use `--no-tests` to skip.
+- Architecture Decisions section in `plan-template.md` to document technical choices.
+- Testing Strategy section in `memory/constitution.md` template.
+- Security Review Checklist variant in `checklist-template.md` (use with `/speckit.checklist security`).
+
+### Backlog
+
+- **Skill `/speckit.postmortem`**: Standardized post-mortem template to extract lessons learned and persist them to constitution/mem0. (Origin: cognitive-twin post-mortem 2026-01-04)
+- **Step `/speckit.retrospective`**: Project closure workflow to synthesize lessons learned, identify patterns to capitalize, and update constitution if needed. Use at end of feature/project. (Origin: boilerplate analysis 2026-01-04)
+
 ## [0.0.22] - 2025-11-07
 
 - Support for VS Code/Copilot agents, and moving away from prompts to proper agents with hand-offs.
