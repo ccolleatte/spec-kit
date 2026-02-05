@@ -22,3 +22,49 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = ["src/specify_cli"]
 
+# Ruff configuration (linter + formatter) - Pattern MemOS
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = [
+    "B",    # flake8-bugbear (bugs potentiels)
+    "C4",   # flake8-comprehensions
+    "E",    # pycodestyle errors
+    "ERA",  # eradicate (commented code)
+    "F",    # pyflakes
+    "I",    # isort (import ordering)
+    "N",    # pep8-naming
+    "PIE",  # flake8-pie (simplifications)
+    "PGH",  # pygrep-hooks
+    "RUF",  # ruff-specific rules
+    "SIM",  # flake8-simplify
+    "TC",   # flake8-type-checking
+    "TID",  # flake8-tidy-imports
+    "UP",   # pyupgrade (modern Python syntax)
+    "W",    # pycodestyle warnings
+]
+ignore = [
+    "RUF001",  # String contains ambiguous character
+    "PGH003",  # Use specific rule codes when ignoring type issues
+]
+
+[tool.ruff.lint.isort]
+lines-after-imports = 2
+lines-between-types = 1
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+# Pre-commit dev dependency
+[project.optional-dependencies]
+dev = [
+    "pre-commit>=4.0.0",
+    "pytest>=8.0.0",
+    "ruff>=0.11.0",
+]
+
