@@ -24,6 +24,7 @@
 - [📽️ Video Overview](#️-video-overview)
 - [🤖 Supported AI Agents](#-supported-ai-agents)
 - [🔧 Specify CLI Reference](#-specify-cli-reference)
+- [🔀 Workflow Orchestration](#-workflow-orchestration)
 - [📚 Core Philosophy](#-core-philosophy)
 - [🌟 Development Phases](#-development-phases)
 - [🎯 Experimental Goals](#-experimental-goals)
@@ -273,6 +274,55 @@ Additional commands for enhanced quality and validation:
 | Variable          | Description                                                                                                                                                                                                                                                                                            |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `SPECIFY_FEATURE` | Override feature detection for non-Git repositories. Set to the feature directory name (e.g., `001-photo-albums`) to work on a specific feature when not using Git branches.<br/>\*\*Must be set in the context of the agent you're working with prior to using `/speckit.plan` or follow-up commands. |
+
+## 🔀 Workflow Orchestration
+
+**Automate the spec-kit sequential workflow with the orchestrator skill.**
+
+The spec-kit orchestrator eliminates friction by automatically chaining the three main phases:
+
+```bash
+cd spec-kit/specs/your-feature
+python ../../.claude/skills/speckit-orchestrator/orchestrator.py \
+  "Real-time chat with message history"
+```
+
+**What it does:**
+- ✅ Automatically runs `specify → plan → tasks` in sequence
+- ✅ Validates dependencies between phases (fail-fast if files missing)
+- ✅ Provides real-time progress logs
+- ✅ Reduces manual interactions by 67% (1 command instead of 3)
+
+**Available modes:**
+- `--mode auto` (default): Full pipeline (specify → plan → tasks)
+- `--mode specify-plan`: Partial pipeline (specify → plan only)
+- `--mode plan-tasks`: Resume from plan phase (requires spec.md)
+
+**Quick examples:**
+
+```bash
+# Full pipeline
+python orchestrator.py "User authentication with JWT"
+
+# Partial (validation before tasks)
+python orchestrator.py "API rate limiting" --mode specify-plan
+
+# Resume from plan
+python orchestrator.py "API rate limiting" --mode plan-tasks
+
+# Verbose logging
+python orchestrator.py "Feature X" -v
+```
+
+**Benefits:**
+- **No manual phase tracking** – orchestrator handles the sequence
+- **Automatic validation** – checks dependencies before each phase
+- **Fail-fast behavior** – stops immediately if a phase fails
+- **Flexible modes** – run full pipeline or partial workflows
+
+📖 **Full documentation:** [`.claude/skills/speckit-orchestrator/README.md`](./.claude/skills/speckit-orchestrator/README.md)
+
+---
 
 ## 📚 Core Philosophy
 
