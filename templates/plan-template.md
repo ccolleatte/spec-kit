@@ -102,6 +102,11 @@ Or via `/pm validate-chain` command once in spec-kit workflow.
 **REQUIRED**: Declare quality gates applicable to this feature's implementation.
 These are checked by `validate-quality-gates.ps1` during development.
 
+**Execution modes**:
+- **Strict**: P0 only (BLOCKING if violations detected, exit code 1)
+- **Warnings**: P0 + P1 checks (exit 0, fix-before-merge items noted)
+- **Advisory**: P0 + P1 + P2 checks (informational, log to refactoring-debt.yaml)
+
 ```yaml
 quality_gates:
   P0_blocking:
@@ -123,18 +128,35 @@ quality_gates:
   P1_warning:
     - id: dry-check
       rule: "No code block duplicated ≥3 times"
-      check: "Serena get_code_smells (if available)"
+      check: "validate-quality-gates.ps1 -Mode Warnings (P1-1)"
       blocking: false  # Warning only
+
+    - id: n-plus-one-queries
+      rule: "Prisma queries use includes instead of loop queries"
+      check: "validate-quality-gates.ps1 -Mode Warnings (P1-2)"
+      blocking: false
+
+    - id: unused-imports
+      rule: "Remove unused imports (detected by linter)"
+      check: "validate-quality-gates.ps1 -Mode Warnings (P1-3)"
+      blocking: false
+
+    - id: type-any-usage
+      rule: "No explicit 'any' types in non-test files — use explicit types"
+      check: "validate-quality-gates.ps1 -Mode Warnings (P1-4)"
+      blocking: false
 
     - id: console-log-cleanup
       rule: "No console.log in lib/ (use logger)"
-      check: "grep 'console\\.log' src/lib/"
+      check: "validate-quality-gates.ps1 -Mode Warnings (P0-3)"
       blocking: false
 
   P2_advisory:
-    - id: n-plus-one-queries
-      rule: "Prisma queries use includes instead of loop queries"
+    - id: cyclomatic-complexity
+      rule: "Functions with >10 branches should be simplified"
+      check: "validate-quality-gates.ps1 -Mode Advisory (P2-1)"
       blocking: false
+      note: "Log in refactoring-debt.yaml for future sessions"
 ```
 
 ### Common Patterns for quality_gates
