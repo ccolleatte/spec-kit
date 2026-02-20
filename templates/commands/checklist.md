@@ -222,6 +222,30 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 To avoid clutter, use descriptive types and clean up obsolete checklists when done.
 
+## Quality Gates (include systematically for TypeScript projects)
+
+If the project uses TypeScript, ALWAYS include this section in the generated checklist:
+
+### Code Quality Gates
+
+**P0 — Bloquants (zero tolerance before merge)**
+
+- [ ] QG-01 File complexity : No file > 500 LOC added in this feature
+- [ ] QG-02 Error patterns : No `throw new Error()` in routers — use `createError()`
+- [ ] QG-03 TypeScript : `npx tsc --noEmit` = 0 errors
+- [ ] QG-04 Tests : Smoke tests ≥ project threshold
+
+**P1 — Avertissements (fix before merge)**
+
+- [ ] QG-05 DRY : No code block >50 LOC duplicated ≥3 times
+- [ ] QG-06 Logging : No `console.log()` in lib/ (use structured logger)
+
+**P2 — Backlog (document, don't block)**
+
+- [ ] QG-07 Debt tracker : Any new smells added to `refactoring-debt.yaml`
+
+---
+
 ## Example Checklist Types & Sample Items
 
 **UX Requirements Quality:** `ux.md`
