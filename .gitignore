@@ -1,3 +1,6 @@
+# Local config (secrets, machine-specific)
+CLAUDE.local.md
+
 # Python
 __pycache__/
 *.py[cod]
@@ -44,3 +47,8 @@ env/
 .genreleases/
 *.zip
 sdd-*/
+
+# Claude Code - local configuration (not shared)
+.claude/settings.local.json
+.claude/mcp-gateway.lock
+.claude/*.log
