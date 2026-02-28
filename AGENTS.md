@@ -1,4 +1,17 @@
-# AGENTS.md
+# AGENTS.md — spec-kit
+
+> **Workspace** : Voir `C:\dev\AGENTS.md` pour les règles communes au workspace.
+> **Claude Code** : Voir `CLAUDE.md` (chargé automatiquement) pour les détails projet.
+
+## Contexte projet (résumé)
+
+**Spec Kit** — toolkit CLI Python pour Spec-Driven Development (SDD).
+- **License** : MIT | **Architecture** : single-file monolith (`src/specify_cli/__init__.py`)
+- **17 agents** supportés via `AGENT_CONFIG` dictionary (config-driven)
+- **TDD strict** : pytest, coverage >= 70% lignes / 60% branches
+- **Contrainte** : `__init__.py` reste monolithique — design intentionnel
+
+---
 
 ## About Spec Kit and Specify
 
