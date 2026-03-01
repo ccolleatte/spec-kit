@@ -72,6 +72,14 @@ class SpecKitOrchestrator:
 
             self._log(f"[OK] Phase {phase} completed")
 
+            # Post-tasks TDD gate: validate test tasks exist
+            if phase == "tasks":
+                tdd_ok, tdd_msg = self._validate_tdd_gate()
+                if not tdd_ok:
+                    self._log(f"[TDD GATE] {tdd_msg}", error=True)
+                    # Warning only, not blocking — tasks.md is still valid
+                    # but user should add test tasks before implementation
+
         return True, f"Pipeline completed: {' -> '.join(pipeline)}"
 
     def _run_phase(self, phase: str, description: str) -> Tuple[bool, str]:
@@ -205,6 +213,49 @@ class SpecKitOrchestrator:
             msg = f"Unexpected error: {str(e)}"
             self._log(f"    [error] {msg}", error=True)
             return False, msg
+
+    def _validate_tdd_gate(self) -> Tuple[bool, str]:
+        """
+        Post-tasks TDD gate: verify tasks.md contains test tasks
+        that reference acceptance scenarios (US-S format).
+
+        Returns:
+            (success: bool, message: str)
+        """
+        tasks_path = Path.cwd() / "tasks.md"
+        if not tasks_path.exists():
+            return False, "tasks.md not found"
+
+        content = tasks_path.read_text(encoding="utf-8")
+
+        # Check for test task indicators
+        has_test_tasks = any(
+            marker in content
+            for marker in ["TDD approach", "test for", "Test for", "contract test", "integration test", "unit test"]
+        )
+        has_scenario_refs = any(
+            marker in content
+            for marker in ["[US1-S", "[US2-S", "[US3-S", "[US1]", "[US2]", "[US3]"]
+        )
+
+        if not has_test_tasks:
+            self._log(
+                "  [TDD GATE] WARNING: tasks.md contains no test tasks. "
+                "TDD requires tests BEFORE implementation. "
+                "Re-run with test tasks or add them manually.",
+                error=True
+            )
+            return False, "No test tasks found in tasks.md — TDD gate failed"
+
+        if not has_scenario_refs:
+            self._log(
+                "  [TDD GATE] INFO: tasks.md has test tasks but no scenario "
+                "references (US-S format). Consider linking tests to spec.md "
+                "acceptance scenarios for traceability."
+            )
+
+        self._log("  [TDD GATE] PASS: test tasks found in tasks.md")
+        return True, "TDD gate passed"
 
     def _validate_file_exists(self, filename: str) -> bool:
         """

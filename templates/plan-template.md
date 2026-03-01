@@ -97,6 +97,27 @@ Or via `/pm validate-chain` command once in spec-kit workflow.
 > [!NOTE]
 > **ACTION REQUIRED**: Select one of the common patterns above or customize for your specific project needs. Delete unused pattern examples before finalizing the plan.
 
+## Test strategy *(mandatory — from spec.md test traceability)*
+
+<!--
+  GATE: This section MUST reference the test traceability table from spec.md.
+  It defines HOW tests will be organized and WHEN they will be written (before implementation).
+-->
+
+**Test types** :
+
+| Type | Scope | Runner | Coverage target |
+|------|-------|--------|----------------|
+| contract | API boundaries, public interfaces | pytest / vitest | 80% lines |
+| integration | Cross-module workflows | pytest / vitest | 70% lines |
+| unit | Isolated logic, edge cases | pytest / vitest | 60% branches |
+
+**TDD gate** : Tests from spec.md `Test traceability` table MUST be written and fail (RED) before implementation starts. `/test-pilot enforce-tdd` validates this gate.
+
+**Spec→test mapping** : Each acceptance scenario (GWT) in spec.md maps to ≥1 test. Unmapped scenarios are flagged by `/test-quality` as coverage gaps.
+
+---
+
 ## Quality Gates
 
 **REQUIRED**: Declare quality gates applicable to this feature's implementation.

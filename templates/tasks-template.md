@@ -8,7 +8,8 @@ description: "Task list template for feature implementation"
 **Input**: Design documents from `/specs/[###-feature-name]/`
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
-**Tests**: Tests are REQUIRED by default (TDD approach). Use `--no-tests` flag with `/speckit.tasks` to skip if explicitly justified in spec.md.
+**Tests**: Tests are REQUIRED by default (TDD approach). Each test task MUST reference its source acceptance scenario from spec.md (e.g., `[US1-S1]`).
+**TDD gate**: All test tasks in a phase MUST be written and FAIL (RED) before any implementation task starts.
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
@@ -82,9 +83,10 @@ Examples of foundational tasks (adjust based on your project):
 ### Tests for User Story 1 (REQUIRED - TDD approach) ✅
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
+> **TRACEABILITY**: Each test references its spec.md acceptance scenario (US-S format)
 
-- [ ] T010 [P] [US1] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T011 [P] [US1] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T010 [P] [US1-S1] Contract test for [endpoint] in tests/contract/test_[name].py — *Given [state], When [action], Then [outcome]*
+- [ ] T011 [P] [US1-S2] Integration test for [user journey] in tests/integration/test_[name].py — *Given [state], When [action], Then [outcome]*
 
 ### Implementation for User Story 1
 
