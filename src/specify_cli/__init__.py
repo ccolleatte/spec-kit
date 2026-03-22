@@ -898,6 +898,53 @@ def download_and_extract_template(project_path: Path, ai_assistant: str, script_
     return project_path
 
 
+def generate_trivy_workflow(project_path: Path, tracker: StepTracker | None = None) -> None:
+    """Generate .github/workflows/trivy-security.yml in the target project."""
+    workflow_dir = project_path / ".github" / "workflows"
+    workflow_dir.mkdir(parents=True, exist_ok=True)
+    workflow_path = workflow_dir / "trivy-security.yml"
+
+    content = """\
+name: Security Scan (Trivy)
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  trivy-scan:
+    name: Vulnerability Scan (Trivy)
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          scanners: 'vuln,secret'
+          format: 'sarif'
+          output: 'trivy.sarif'
+          severity: 'CRITICAL,HIGH'
+          exit-code: '0'
+
+      - name: Upload SARIF to GitHub Security
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy.sarif
+"""
+    workflow_path.write_text(content, encoding="utf-8")
+
+    if tracker:
+        tracker.complete("trivy", "workflow generated")
+
+
 def ensure_executable_scripts(project_path: Path, tracker: StepTracker | None = None) -> None:
     """Ensure POSIX .sh scripts under .specify/scripts (recursively) have execute bits (no-op on Windows)."""
     if os.name == "nt":
@@ -1108,6 +1155,7 @@ def init(
         ("zip-list", "Archive contents"),
         ("extracted-summary", "Extraction summary"),
         ("chmod", "Ensure scripts executable"),
+        ("trivy", "Generate security workflow"),
         ("cleanup", "Cleanup"),
         ("git", "Initialize git repository"),
         ("final", "Finalize")
@@ -1127,6 +1175,9 @@ def init(
             download_and_extract_template(project_path, selected_ai, selected_script, here, verbose=False, tracker=tracker, client=local_client, debug=debug, github_token=github_token)
 
             ensure_executable_scripts(project_path, tracker=tracker)
+
+            tracker.start("trivy")
+            generate_trivy_workflow(project_path, tracker=tracker)
 
             if not no_git:
                 tracker.start("git")
@@ -1272,6 +1323,9 @@ def check():
     tracker.add("code-insiders", "Visual Studio Code Insiders")
     code_insiders_ok = check_tool("code-insiders", tracker=tracker)
 
+    tracker.add("trivy", "Trivy vulnerability scanner")
+    trivy_ok = check_tool("trivy", tracker=tracker)
+
     console.print(tracker.render())
 
     console.print("\n[bold green]Specify CLI is ready to use![/bold green]")
@@ -1281,6 +1335,9 @@ def check():
 
     if not any(agent_results.values()):
         console.print("[dim]Tip: Install an AI assistant for the best experience[/dim]")
+
+    if not trivy_ok:
+        console.print("[dim]Tip: Install trivy for local security scanning — https://aquasecurity.github.io/trivy/[/dim]")
 
 @app.command()
 def version():
