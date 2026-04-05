@@ -69,6 +69,7 @@ Examples of foundational tasks (adjust based on your project):
 - [ ] T007 Create base models/entities that all stories depend on
 - [ ] T008 Configure error handling and logging infrastructure
 - [ ] T009 Setup environment configuration management
+- [ ] T010 [UX] Run `/ux-ui-designer-pro` review on spec.md → validate friction analysis, WCAG targets, design tokens mapping. Output: `ux-review.md` in feature folder. (Skip with justification if feature is non user-facing — API/backend/batch.)
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 

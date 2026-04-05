@@ -81,6 +81,21 @@
 | US1-S2 (Given..When..Then..) | `tests/integration/test_[name].py` | integration | pending |
 | US2-S1 (Given..When..Then..) | `tests/unit/test_[name].py` | unit | pending |
 
+### UX traceability *(mandatory for user-facing features — gate before Phase 3)*
+
+<!--
+  GATE: This section MUST be filled before proceeding to plan.md (Phase 3).
+  Each user journey must map to friction analysis + WCAG verification plan.
+  Skip allowed only if feature is non user-facing (API/backend/batch) — document reason.
+-->
+
+| User story | Friction analysis | WCAG target | A11y verification | Status |
+|------------|-------------------|-------------|-------------------|--------|
+| US1 | [doc path or inline summary / N/A] | AA / AAA | axe-devtools + manual keyboard | pending |
+| US2 | [doc path or inline summary / N/A] | AA / AAA | axe-devtools + manual keyboard | pending |
+
+**Skip reason (if non user-facing)**: [justification — e.g., "API-only endpoint consumed by backend workers"]
+
 ### Edge Cases
 
 <!--
@@ -110,6 +125,24 @@
 
 - **FR-006**: System MUST authenticate users via [NEEDS CLARIFICATION: auth method not specified - email/password, SSO, OAuth?]
 - **FR-007**: System MUST retain user data for [NEEDS CLARIFICATION: retention period not specified]
+
+### UX Requirements *(mandatory for user-facing features)*
+
+<!--
+  User-facing features = features touching UI (forms, navigation, onboarding, auth, dashboards, settings).
+  If feature is API-only / backend infra / batch → mark "N/A (non user-facing)" + justification.
+-->
+
+- **UX-001**: Target WCAG compliance level (AA minimum, AAA for critical paths)
+- **UX-002**: Friction analysis — identify cognitive / interaction / emotional / time / technical / accessibility friction points per user journey
+- **UX-003**: Responsive breakpoints supported (320 / 768 / 1024 / 1440)
+- **UX-004**: Loading states defined (skeleton, spinner, error boundary)
+- **UX-005**: Error handling UX — all error messages localized + actionable
+- **UX-006**: Keyboard navigation complete (all interactive elements reachable, `focus-visible` states)
+
+*Example of non user-facing marker:*
+
+- **UX-000**: N/A — this feature is API-only (no user interface). [Justification: internal service endpoint consumed by backend workers only.]
 
 ### Key Entities *(include if feature involves data)*
 
