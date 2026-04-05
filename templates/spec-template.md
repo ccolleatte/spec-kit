@@ -159,6 +159,20 @@
 
 - **SEC-000**: N/A — this feature is a local batch script with no HTTP surface. [Justification: runs on developer machine via CLI, no network exposure.]
 
+### Architecture Decisions *(mandatory if feature introduces structural decisions)*
+
+<!--
+  Structural decisions = stack/framework choices, auth model, data model changes,
+  integration patterns, breaking API changes. Mark "N/A" if feature is purely
+  incremental (bugfix, refactor, UI polish) with no new structural choice.
+-->
+
+| Decision | Options considered | ADR ref | Status |
+|----------|-------------------|---------|--------|
+| [1-3 words] | [A / B / C] | ADR-NNN (link) | pending / accepted |
+
+**Skip reason (if no structural decision)**: [e.g., "incremental UI change, no new pattern"]
+
 ### UX Requirements *(mandatory for user-facing features)*
 
 <!--

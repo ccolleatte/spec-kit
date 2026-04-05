@@ -73,6 +73,7 @@ Examples of foundational tasks (adjust based on your project):
 - [ ] T011 [SEC] Run `/review security` on spec.md → validate STRIDE threat model, OWASP Top 10 coverage, rate limiting, secrets management. Output: `security-review.md` in feature folder. (Skip with justification if feature is non-exposed — local batch/CLI.)
 - [ ] T012 [CICD] Configure CI pipeline (GitHub Actions or equivalent): lint + typecheck + tests + secrets scan. Required before merging feature branch to main.
 - [ ] T013 [E2E] Write ≥3 smoke tests (Playwright/Cypress/equivalent) covering happy paths for user stories. (Skip with justification if feature is non user-facing.)
+- [ ] T014 [ADR] Run `/decide` for each structural decision identified in spec.md §Architecture Decisions. Output: ADR-NNN file(s) in `_docs/architecture/decisions/`. (Skip if N/A.)
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -156,7 +157,10 @@ Examples of foundational tasks (adjust based on your project):
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] TXXX [P] Documentation updates in docs/
+- [ ] TXXX [DOC] CHANGELOG entry under `[Unreleased]` (Added/Changed/Fixed/Removed per commit prefix)
+- [ ] TXXX [DOC] OpenAPI spec synced (if feature touches public API endpoints)
+- [ ] TXXX [DOC] README updated (if feature changes user-facing commands or setup)
+- [ ] TXXX [DOC] ADR status bumped from "proposed" to "accepted" (if decisions were taken during implementation)
 - [ ] TXXX Code cleanup and refactoring
 - [ ] TXXX Performance optimization across all stories
 - [ ] TXXX [P] Additional unit tests (if requested) in tests/unit/
