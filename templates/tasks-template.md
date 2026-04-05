@@ -70,6 +70,9 @@ Examples of foundational tasks (adjust based on your project):
 - [ ] T008 Configure error handling and logging infrastructure
 - [ ] T009 Setup environment configuration management
 - [ ] T010 [UX] Run `/ux-ui-designer-pro` review on spec.md → validate friction analysis, WCAG targets, design tokens mapping. Output: `ux-review.md` in feature folder. (Skip with justification if feature is non user-facing — API/backend/batch.)
+- [ ] T011 [SEC] Run `/review security` on spec.md → validate STRIDE threat model, OWASP Top 10 coverage, rate limiting, secrets management. Output: `security-review.md` in feature folder. (Skip with justification if feature is non-exposed — local batch/CLI.)
+- [ ] T012 [CICD] Configure CI pipeline (GitHub Actions or equivalent): lint + typecheck + tests + secrets scan. Required before merging feature branch to main.
+- [ ] T013 [E2E] Write ≥3 smoke tests (Playwright/Cypress/equivalent) covering happy paths for user stories. (Skip with justification if feature is non user-facing.)
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 

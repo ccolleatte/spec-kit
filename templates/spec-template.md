@@ -81,6 +81,21 @@
 | US1-S2 (Given..When..Then..) | `tests/integration/test_[name].py` | integration | pending |
 | US2-S1 (Given..When..Then..) | `tests/unit/test_[name].py` | unit | pending |
 
+### Security traceability *(mandatory for features exposing endpoints or data — gate before Phase 3)*
+
+<!--
+  GATE: This section MUST be filled before proceeding to plan.md (Phase 3).
+  Each endpoint/data surface must map to a threat model + mitigation + rate limit.
+  Skip allowed only if feature is non-exposed (local batch, internal utility) — document reason.
+-->
+
+| Endpoint / surface | Threat (STRIDE) | Mitigation | Rate limit | Status |
+|--------------------|-----------------|------------|------------|--------|
+| POST /api/[name]   | [S/T/R/I/D/E]   | [auth method + input validation] | [N req/min per IP] | pending |
+| GET /api/[name]    | [S/T/R/I/D/E]   | [auth method + access control] | [N req/min per user] | pending |
+
+**Skip reason (if non-exposed)**: [justification — e.g., "local CLI script, no HTTP surface"]
+
 ### UX traceability *(mandatory for user-facing features — gate before Phase 3)*
 
 <!--
@@ -125,6 +140,24 @@
 
 - **FR-006**: System MUST authenticate users via [NEEDS CLARIFICATION: auth method not specified - email/password, SSO, OAuth?]
 - **FR-007**: System MUST retain user data for [NEEDS CLARIFICATION: retention period not specified]
+
+### Security Requirements *(mandatory for features exposing endpoints or handling user data)*
+
+<!--
+  Features exposing endpoints or data = any API route, auth flow, data persistence, external integration.
+  If feature is 100% internal (local batch, one-shot script, pure UI with no backend) → mark "N/A (non exposé)" + justification.
+-->
+
+- **SEC-001**: STRIDE threat model — list identified threats (Spoofing / Tampering / Repudiation / Info Disclosure / DoS / Elevation) + mitigation per threat
+- **SEC-002**: OWASP Top 10 coverage — injection / auth / exposure / XXE / access control / misconfig / XSS / deserialization / known vulns / logging
+- **SEC-003**: Rate limiting defined per public endpoint (window + quota per IP/user)
+- **SEC-004**: Auth scope — least privilege principle (who can call what, with which credentials)
+- **SEC-005**: Secrets management — no hardcoded fallbacks, fail loud if required env vars missing
+- **SEC-006**: Input validation — Zod/equivalent schema on all public endpoints, size limits, sanitization
+
+*Example of non-exposed marker:*
+
+- **SEC-000**: N/A — this feature is a local batch script with no HTTP surface. [Justification: runs on developer machine via CLI, no network exposure.]
 
 ### UX Requirements *(mandatory for user-facing features)*
 
