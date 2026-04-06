@@ -85,6 +85,26 @@ workflow_chain:
     required: true
 ```
 
+**Pattern 4 - Complex Feature (≥3 files, uncertain blast radius)**:
+```yaml
+workflow_chain:
+  - skill: "/pm"
+    phase: "Phase 0-2"
+    required: true
+  - skill: "/deep-plan"
+    phase: "Phase 2→3 (Pre-Plan)"
+    context: "Multi-agent codebase exploration before plan.md"
+    required: true
+  - skill: "/test-pilot"
+    phase: "Phase 5"
+    context: "TDD enforcement"
+    required: true
+  - skill: "/precommit"
+    phase: "Phase 5"
+    context: "Pre-commit validation"
+    required: true
+```
+
 ### Validation
 
 Validate workflow chain structure using:

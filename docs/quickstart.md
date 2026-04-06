@@ -53,6 +53,19 @@ uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME
 /speckit.clarify Focus on security and performance requirements.
 ```
 
+### Step 4b (Optional): Deep Codebase Exploration
+
+For features touching **≥3 files** or with **uncertain blast radius** (migrations, cross-cutting refactors), run a multi-agent exploration before planning:
+
+```markdown
+/deep-plan Summarize what needs to change for [feature description]
+```
+
+This launches parallel agents to analyze architecture, scope files to modify, and identify risks. The findings directly inform the technical plan in Step 5.
+
+> [!TIP]
+> Skip this step for simple features (1-2 files, clear scope). The value comes from surfacing unknowns early — before they become expensive surprises during implementation.
+
 ### Step 5: Create a Technical Implementation Plan
 
 **In the chat**, use the `/speckit.plan` slash command to provide your tech stack and architecture choices.

@@ -93,6 +93,16 @@ Once a feature specification exists, this command creates a comprehensive implem
 4. **Detailed Documentation**: Generates supporting documents for data models, API contracts, and test scenarios
 5. **Quickstart Validation**: Produces a quickstart guide capturing key validation scenarios
 
+### Optional: `/deep-plan` (Pre-Plan Exploration)
+
+For features touching ≥3 files or with uncertain blast radius, a multi-agent codebase exploration can run **before** `/speckit.plan` to ground the plan in code reality:
+
+1. **Parallel Exploration**: Three agents simultaneously analyze architecture, scope files to modify, and identify risks
+2. **Critique Pass**: A fourth agent reviews the findings for gaps, contradictions, and missing steps
+3. **Structured Output**: Produces a plan with exact file list, risk assessment, and implementation order
+
+The findings feed directly into `/speckit.plan`, replacing guesswork with evidence from the codebase. Skip this step for simple features where scope is obvious.
+
 ### The `/speckit.tasks` Command
 
 After a plan is created, this command analyzes the plan and related design documents to generate an executable task list:
