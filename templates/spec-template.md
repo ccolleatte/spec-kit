@@ -225,6 +225,15 @@
 - **SC-003**: [User satisfaction metric, e.g., "90% of users successfully complete primary task on first attempt"]
 - **SC-004**: [Business metric, e.g., "Reduce support tickets related to [X] by 50%"]
 
+## Maybe-Later
+
+Features exclues du scope actuel avec condition de réintroduction explicite.
+Vide = pas de maybe-later identifié. `jamais` = explicitly-out.
+
+| Feature | Condition de réintroduction |
+|---------|----------------------------|
+| [Feature exclue] | [Trigger : après X users / après Y mois / jamais] |
+
 ## Architecture Exploration Triggers *(Constitution Principle VIII)*
 
 <!--
