@@ -48,5 +48,15 @@ repos:
       - id: no_implicit_optional
         name: No implicit optional types
 
+  # Repo-local guards
+  - repo: local
+    hooks:
+      - id: template-sync
+        name: templates/ and .specify/ shared pairs identical
+        entry: bash .github/workflows/scripts/check-template-sync.sh
+        language: system
+        pass_filenames: false
+        always_run: true
+
 # Ruff configuration (inline)
 # See also: pyproject.toml [tool.ruff] section
