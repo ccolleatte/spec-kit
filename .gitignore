@@ -48,6 +48,10 @@ env/
 *.zip
 sdd-*/
 
+# Test artifacts
+.coverage
+reports/
+
 # Claude Code - local configuration (not shared)
 .claude/settings.local.json
 .claude/mcp-gateway.lock
