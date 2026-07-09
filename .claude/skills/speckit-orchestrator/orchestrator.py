@@ -80,7 +80,7 @@ class SpecKitOrchestrator:
                     # Warning only, not blocking — tasks.md is still valid
                     # but user should add test tasks before implementation
 
-        return True, f"Pipeline completed: {' -> '.join(pipeline)}"
+        return True, f"Pipeline completed: {' → '.join(pipeline)}"
 
     def _run_phase(self, phase: str, description: str) -> Tuple[bool, str]:
         """
