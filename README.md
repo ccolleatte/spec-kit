@@ -59,14 +59,62 @@ Then use the tool directly:
 
 ```bash
 # Create new project
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init <PROJECT_NAME>
 
 # Or initialize in existing project
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init . --ai claude
 # or
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init --here --ai claude
 
 # Check installed tools
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify check
 ```
 
@@ -194,52 +242,256 @@ The `specify` command supports the following options:
 
 ```bash
 # Basic project initialization
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init my-project
 
 # Initialize with specific AI assistant
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init my-project --ai claude
 
 # Initialize with Cursor support
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init my-project --ai cursor-agent
 
 # Initialize with Qoder support
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init my-project --ai qoder
 
 # Initialize with Windsurf support
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init my-project --ai windsurf
 
 # Initialize with Amp support
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init my-project --ai amp
 
 # Initialize with SHAI support
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init my-project --ai shai
 
 # Initialize with IBM Bob support
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init my-project --ai bob
 
 # Initialize with PowerShell scripts (Windows/cross-platform)
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init my-project --ai copilot --script ps
 
 # Initialize in current directory
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init . --ai copilot
 # or use the --here flag
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init --here --ai copilot
 
 # Force merge into current (non-empty) directory without confirmation
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init . --force --ai copilot
 # or
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init --here --force --ai copilot
 
 # Skip git initialization
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init my-project --ai gemini --no-git
 
 # Enable debug output for troubleshooting
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init my-project --ai claude --debug
 
 # Use GitHub token for API requests (helpful for corporate environments)
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init my-project --ai claude --github-token ghp_your_token_here
 
 # Check system requirements
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify check
 ```
 
@@ -302,15 +554,63 @@ python ../../.claude/skills/speckit-orchestrator/orchestrator.py \
 
 ```bash
 # Full pipeline
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 python orchestrator.py "User authentication with JWT"
 
 # Partial (validation before tasks)
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 python orchestrator.py "API rate limiting" --mode specify-plan
 
 # Resume from plan
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 python orchestrator.py "API rate limiting" --mode plan-tasks
 
 # Verbose logging
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 python orchestrator.py "Feature X" -v
 ```
 
@@ -400,10 +700,46 @@ Or initialize in the current directory:
 ```bash
 specify init .
 # or use the --here flag
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init --here
 # Skip confirmation when the directory already has files
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init . --force
 # or
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init --here --force
 ```
 
@@ -417,17 +753,65 @@ specify init <project_name> --ai gemini
 specify init <project_name> --ai copilot
 
 # Or in current directory:
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init . --ai claude
 specify init . --ai codex
 
 # or use --here flag
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init --here --ai claude
 specify init --here --ai codex
 
 # Force merge into a non-empty current directory
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init . --force --ai claude
 
 # or
+
+<!-- AUTO:TESTS-START -->
+## Statut des tests
+
+| Indicateur | Valeur |
+|-----------|--------|
+| Tests OK | 36 |
+| Tests KO | 0 |
+| Taux de succes | 100% |
+| Derniere validation | 2026-07-09 |
+
+<!-- AUTO:TESTS-END -->
 specify init --here --force --ai claude
 ```
 
