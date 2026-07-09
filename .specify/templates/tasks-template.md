@@ -8,7 +8,8 @@ description: "Task list template for feature implementation"
 **Input**: Design documents from `/specs/[###-feature-name]/`
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
-**Tests**: Tests are REQUIRED by default (TDD approach). Use `--no-tests` flag with `/speckit.tasks` to skip if explicitly justified in spec.md.
+**Tests**: Tests are REQUIRED by default (TDD approach). Each test task MUST reference its source acceptance scenario from spec.md (e.g., `[US1-S1]`).
+**TDD gate**: All test tasks in a phase MUST be written and FAIL (RED) before any implementation task starts.
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
@@ -25,21 +26,21 @@ description: "Task list template for feature implementation"
 - **Mobile**: `api/src/`, `ios/src/` or `android/src/`
 - Paths shown below assume single project - adjust based on plan.md structure
 
-<!--
+<!-- 
   ============================================================================
   IMPORTANT: The tasks below are SAMPLE TASKS for illustration purposes only.
-
+  
   The /speckit.tasks command MUST replace these with actual tasks based on:
   - User stories from spec.md (with their priorities P1, P2, P3...)
   - Feature requirements from plan.md
   - Entities from data-model.md
   - Endpoints from contracts/
-
+  
   Tasks MUST be organized by user story so each story can be:
   - Implemented independently
   - Tested independently
   - Delivered as an MVP increment
-
+  
   DO NOT keep these sample tasks in the generated tasks.md file.
   ============================================================================
 -->
@@ -68,6 +69,11 @@ Examples of foundational tasks (adjust based on your project):
 - [ ] T007 Create base models/entities that all stories depend on
 - [ ] T008 Configure error handling and logging infrastructure
 - [ ] T009 Setup environment configuration management
+- [ ] T010 [UX] Run `/ux-ui-designer-pro` review on spec.md → validate friction analysis, WCAG targets, design tokens mapping. If `design.md` exists at project root, reference it before generation (color, typo, spacing, a11y rules). If absent for a new project, create it from `templates/design.md`. Output: `ux-review.md` in feature folder. (Skip with justification if feature is non user-facing — API/backend/batch.)
+- [ ] T011 [SEC] Run `/review security` on spec.md → validate STRIDE threat model, OWASP Top 10 coverage, rate limiting, secrets management. Output: `security-review.md` in feature folder. (Skip with justification if feature is non-exposed — local batch/CLI.)
+- [ ] T012 [CICD] Configure CI pipeline (GitHub Actions or equivalent): lint + typecheck + tests + secrets scan. Required before merging feature branch to main.
+- [ ] T013 [E2E] Write ≥3 smoke tests (Playwright/Cypress/equivalent) covering happy paths for user stories. (Skip with justification if feature is non user-facing.)
+- [ ] T014 [ADR] Run `/decide` for each structural decision identified in spec.md §Architecture Decisions. Output: ADR-NNN file(s) in `_docs/architecture/decisions/`. (Skip if N/A.)
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -82,9 +88,10 @@ Examples of foundational tasks (adjust based on your project):
 ### Tests for User Story 1 (REQUIRED - TDD approach) ✅
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
+> **TRACEABILITY**: Each test references its spec.md acceptance scenario (US-S format)
 
-- [ ] T010 [P] [US1] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T011 [P] [US1] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T010 [P] [US1-S1] Contract test for [endpoint] in tests/contract/test_[name].py — *Given [state], When [action], Then [outcome]*
+- [ ] T011 [P] [US1-S2] Integration test for [user journey] in tests/integration/test_[name].py — *Given [state], When [action], Then [outcome]*
 
 ### Implementation for User Story 1
 
@@ -150,7 +157,10 @@ Examples of foundational tasks (adjust based on your project):
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] TXXX [P] Documentation updates in docs/
+- [ ] TXXX [DOC] CHANGELOG entry under `[Unreleased]` (Added/Changed/Fixed/Removed per commit prefix)
+- [ ] TXXX [DOC] OpenAPI spec synced (if feature touches public API endpoints)
+- [ ] TXXX [DOC] README updated (if feature changes user-facing commands or setup)
+- [ ] TXXX [DOC] ADR status bumped from "proposed" to "accepted" (if decisions were taken during implementation)
 - [ ] TXXX Code cleanup and refactoring
 - [ ] TXXX Performance optimization across all stories
 - [ ] TXXX [P] Additional unit tests (if requested) in tests/unit/

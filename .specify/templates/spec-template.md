@@ -65,6 +65,59 @@
 
 [Add more user stories as needed, each with an assigned priority]
 
+### Test traceability *(mandatory — gate before Phase 3)*
+
+<!--
+  GATE: This section MUST be filled before proceeding to plan.md (Phase 3).
+  Each acceptance scenario above must map to at least one test.
+  Format: GWT reference → test file path → test type (contract/integration/unit)
+
+  This ensures TDD: tests are DESIGNED at spec time, WRITTEN before implementation.
+-->
+
+| Scenario | Test file | Type | Status |
+|----------|-----------|------|--------|
+| US1-S1 (Given..When..Then..) | `tests/contract/test_[name].py` | contract | pending |
+| US1-S2 (Given..When..Then..) | `tests/integration/test_[name].py` | integration | pending |
+| US2-S1 (Given..When..Then..) | `tests/unit/test_[name].py` | unit | pending |
+
+#### Test strategy summary
+
+- **Unit tests** : [What is unit-tested — e.g., "Business logic in services/"]
+- **Integration tests** : [What is integration-tested — e.g., "API endpoints with real DB"]
+- **Contract tests** : [What is contract-tested — e.g., "External API boundaries"]
+- **E2E tests** : [If applicable — e.g., "Critical user journeys via Playwright"]
+
+### Security traceability *(mandatory for features exposing endpoints or data — gate before Phase 3)*
+
+<!--
+  GATE: This section MUST be filled before proceeding to plan.md (Phase 3).
+  Each endpoint/data surface must map to a threat model + mitigation + rate limit.
+  Skip allowed only if feature is non-exposed (local batch, internal utility) — document reason.
+-->
+
+| Endpoint / surface | Threat (STRIDE) | Mitigation | Rate limit | Status |
+|--------------------|-----------------|------------|------------|--------|
+| POST /api/[name]   | [S/T/R/I/D/E]   | [auth method + input validation] | [N req/min per IP] | pending |
+| GET /api/[name]    | [S/T/R/I/D/E]   | [auth method + access control] | [N req/min per user] | pending |
+
+**Skip reason (if non-exposed)**: [justification — e.g., "local CLI script, no HTTP surface"]
+
+### UX traceability *(mandatory for user-facing features — gate before Phase 3)*
+
+<!--
+  GATE: This section MUST be filled before proceeding to plan.md (Phase 3).
+  Each user journey must map to friction analysis + WCAG verification plan.
+  Skip allowed only if feature is non user-facing (API/backend/batch) — document reason.
+-->
+
+| User story | Friction analysis | WCAG target | A11y verification | Status |
+|------------|-------------------|-------------|-------------------|--------|
+| US1 | [doc path or inline summary / N/A] | AA / AAA | axe-devtools + manual keyboard | pending |
+| US2 | [doc path or inline summary / N/A] | AA / AAA | axe-devtools + manual keyboard | pending |
+
+**Skip reason (if non user-facing)**: [justification — e.g., "API-only endpoint consumed by backend workers"]
+
 ### Edge Cases
 
 <!--
@@ -110,10 +163,76 @@
 - **FR-006**: System MUST authenticate users via [NEEDS CLARIFICATION: auth method not specified - email/password, SSO, OAuth?]
 - **FR-007**: System MUST retain user data for [NEEDS CLARIFICATION: retention period not specified]
 
+### Security Requirements *(mandatory for features exposing endpoints or handling user data)*
+
+<!--
+  Features exposing endpoints or data = any API route, auth flow, data persistence, external integration.
+  If feature is 100% internal (local batch, one-shot script, pure UI with no backend) → mark "N/A (non exposé)" + justification.
+-->
+
+- **SEC-001**: STRIDE threat model — list identified threats (Spoofing / Tampering / Repudiation / Info Disclosure / DoS / Elevation) + mitigation per threat
+- **SEC-002**: OWASP Top 10 coverage — injection / auth / exposure / XXE / access control / misconfig / XSS / deserialization / known vulns / logging
+- **SEC-003**: Rate limiting defined per public endpoint (window + quota per IP/user)
+- **SEC-004**: Auth scope — least privilege principle (who can call what, with which credentials)
+- **SEC-005**: Secrets management — no hardcoded fallbacks, fail loud if required env vars missing
+- **SEC-006**: Input validation — Zod/equivalent schema on all public endpoints, size limits, sanitization
+- **SEC-007**: Least privilege data access — RLS policies restrictive by default where row-level security applies (no `USING (true)`)
+
+*Example of non-exposed marker:*
+
+- **SEC-000**: N/A — this feature is a local batch script with no HTTP surface. [Justification: runs on developer machine via CLI, no network exposure.]
+
+### Architecture Decisions *(mandatory if feature introduces structural decisions)*
+
+<!--
+  Structural decisions = stack/framework choices, auth model, data model changes,
+  integration patterns, breaking API changes. Mark "N/A" if feature is purely
+  incremental (bugfix, refactor, UI polish) with no new structural choice.
+-->
+
+| Decision | Options considered | ADR ref | Status |
+|----------|-------------------|---------|--------|
+| [1-3 words] | [A / B / C] | ADR-NNN (link) | pending / accepted |
+
+**Skip reason (if no structural decision)**: [e.g., "incremental UI change, no new pattern"]
+
+### UX Requirements *(mandatory for user-facing features)*
+
+<!--
+  User-facing features = features touching UI (forms, navigation, onboarding, auth, dashboards, settings).
+  If feature is API-only / backend infra / batch → mark "N/A (non user-facing)" + justification.
+-->
+
+- **UX-001**: Target WCAG compliance level (AA minimum, AAA for critical paths)
+- **UX-002**: Friction analysis — identify cognitive / interaction / emotional / time / technical / accessibility friction points per user journey
+- **UX-003**: Responsive breakpoints supported (320 / 768 / 1024 / 1440)
+- **UX-004**: Loading states defined (skeleton, spinner, error boundary)
+- **UX-005**: Error handling UX — all error messages localized + actionable
+- **UX-006**: Keyboard navigation complete (all interactive elements reachable, `focus-visible` states)
+
+*Example of non user-facing marker:*
+
+- **UX-000**: N/A — this feature is API-only (no user interface). [Justification: internal service endpoint consumed by backend workers only.]
+
 ### Key Entities *(include if feature involves data)*
 
 - **[Entity 1]**: [What it represents, key attributes without implementation]
 - **[Entity 2]**: [What it represents, relationships to other entities]
+
+## Spécifications négatives *(ce qui NE DOIT PAS changer)*
+
+<!--
+  Lean Swarm integration: Définir explicitement les contrats immuables avant d'implémenter.
+  Ces contraintes bornent la zone d'impact et préviennent les régressions en production.
+-->
+
+- **Contrats publics existants** : [liste des API/interfaces qui ne doivent pas changer]
+- **Breaking changes API interdits** : [endpoints concernés, ex: GET /api/users, POST /api/auth]
+- **Performance ceilings** : [seuils à maintenir, ex: p95 < 200ms, bundle < 200kb]
+- **Schema DB intact** : [tables protégées, ex: User, Session, Assessment — no column removal]
+- **Tests existants non cassés** : [test files critiques, ex: auth.test.ts, assessment.router.test.ts]
+
+---
 
 ## Success Criteria *(mandatory)*
 
@@ -138,97 +257,42 @@ Vide = pas de maybe-later identifié. `jamais` = explicitly-out.
 |---------|----------------------------|
 | [Feature exclue] | [Trigger : après X users / après Y mois / jamais] |
 
-## Security Requirements *(conditional — mandatory if endpoints or user data)*
+## Architecture Exploration Triggers *(Constitution Principle VIII)*
 
 <!--
-  GATE: If this feature exposes endpoints or manipulates user data,
-  these requirements MUST be filled BEFORE Phase 3 (implementation).
-  Skip with explicit justification if feature is 100% internal
-  (batch local, script one-shot, pure UI sans backend).
-  Reference: workflow-dev.md §Security Gate
+  This section determines if Phase 3.5 (Architecture Exploration) is required.
+  Check all applicable triggers below. If ≥1 mandatory trigger is checked, Phase 3.5 is REQUIRED.
+  If only recommended triggers are checked, Phase 3.5 is RECOMMENDED but can be skipped with justification.
 -->
 
-| ID | Requirement | Status |
-|----|-------------|--------|
-| SEC-001 | STRIDE threat model completed for each endpoint | [ ] |
-| SEC-002 | OWASP Top 10 reviewed against feature scope | [ ] |
-| SEC-003 | Rate limiting configured on all public endpoints | [ ] |
-| SEC-004 | Zero secrets hardcoded (fail loud if env var missing) | [ ] |
-| SEC-005 | Zod/schema validation on all public inputs | [ ] |
-| SEC-006 | Least privilege: RLS policies restrictive by default | [ ] |
+### Mandatory Triggers (≥1 → Phase 3.5 REQUIRED)
 
-### Security traceability
+- [ ] **High User Story Count**: Feature has ≥5 user stories
+- [ ] **Violates Simplicity First**: Introduces new patterns, abstractions, or significant architectural changes (Constitution Principle V)
+- [ ] **Many Dependencies**: Introduces ≥3 new npm/pip dependencies not in boilerplate
+- [ ] **Scale Requirements**: Explicitly mentions >10k concurrent users, >100k requests/day, or similar scale concerns
+- [ ] **Extension Candidate**: Feature is candidate for AI/Python extension, Mobile extension, or Microservices migration
 
-| Endpoint/Surface | Threat (STRIDE) | Mitigation | Rate limit |
-|------------------|-----------------|------------|------------|
-| [POST /api/xxx] | [Spoofing, Tampering] | [Auth + Zod validation] | [10/min] |
+### Recommended Triggers (≥1 → Phase 3.5 RECOMMENDED)
 
-**Skip justification** : [If N/A — explain why: "100% internal batch, no endpoints, no user data"]
+- [ ] **Medium User Story Count**: Feature has 3-4 user stories
+- [ ] **Non-obvious Architecture**: Multiple valid implementation approaches exist (e.g., polling vs WebSockets, monolith vs services)
+- [ ] **Cross-cutting Concerns**: Feature touches authentication, authorization, real-time, caching, or search systems
+- [ ] **Performance Sensitive**: Feature has explicit performance requirements (latency, throughput)
+
+### Skip Conditions (Phase 3.5 NOT needed)
+
+- [ ] **Simple Feature**: <3 user stories
+- [ ] **Obvious Architecture**: Bugfix, CSS-only, standard CRUD, or obvious tech choice (e.g., "add email field to form")
+- [ ] **Spike/Prototype**: Exploration already completed in separate spike
+- [ ] **User Explicitly Skips**: User requested skip (document reason below)
+
+**Skip Justification** (if applicable):
+[Explain why Phase 3.5 is being skipped despite triggers]
 
 ---
 
-## UX Requirements *(conditional — mandatory if user-facing)*
-
-<!--
-  GATE: If this feature has a user-facing interface (form, auth, onboarding,
-  nav, dashboard, settings), these requirements MUST be filled BEFORE Phase 3.
-  Skip with explicit justification if API-only / backend / batch.
-  Reference: workflow-dev.md §UX Gate
--->
-
-| ID | Requirement | Status |
-|----|-------------|--------|
-| UX-001 | Friction points identified and mitigated | [ ] |
-| UX-002 | WCAG AA compliance verified | [ ] |
-| UX-003 | Accessibility (a11y) verification per user story | [ ] |
-| UX-004 | Error states designed (not just happy path) | [ ] |
-| UX-005 | Loading/empty states designed | [ ] |
-| UX-006 | Design tokens mapped to components | [ ] |
-
-### UX traceability
-
-| User Story | Friction point | WCAG criteria | a11y verification |
-|------------|---------------|---------------|-------------------|
-| [US-1] | [e.g., "3-step form may lose users"] | [2.4.7 Focus visible] | [Keyboard nav tested] |
-
-**Skip justification** : [If N/A — explain why: "API-only, no user interface"]
-
----
-
-## Architecture Decisions *(conditional — if structural choices)*
-
-<!--
-  If this feature involves a structural choice (stack, auth method, data model,
-  integration pattern), document it here and create a formal ADR via /decide.
-  Skip if feature is incremental with no structural choice.
--->
-
-| Decision | ADR ref | Status |
-|----------|---------|--------|
-| [e.g., "Vault for key storage"] | [ADR-005] | [ACCEPTED] |
-
-**Skip justification** : [If N/A — "Incremental feature, no structural decision"]
-
----
-
-## Test Traceability *(mandatory)*
-
-<!--
-  Map each user story to its test strategy. This section ensures
-  no user story ships without explicit test coverage.
--->
-
-| User Story | Test type | Test location | Acceptance criteria verified |
-|------------|-----------|---------------|---------------------------|
-| [US-1 (P1)] | [Integration] | [tests/integration/test_xxx.py] | [Given/When/Then #1, #2] |
-| [US-2 (P2)] | [Contract + Unit] | [tests/contract/xxx, tests/unit/xxx] | [Given/When/Then #1] |
-
-### Test strategy summary
-
-- **Unit tests** : [What is unit-tested — e.g., "Business logic in services/"]
-- **Integration tests** : [What is integration-tested — e.g., "API endpoints with real DB"]
-- **Contract tests** : [What is contract-tested — e.g., "External API boundaries"]
-- **E2E tests** : [If applicable — e.g., "Critical user journeys via Playwright"]
+**Phase 3.5 Decision**: [REQUIRED / RECOMMENDED / SKIP] (auto-determined by triggers above)
 
 ---
 
@@ -246,10 +310,11 @@ Vide = pas de maybe-later identifié. `jamais` = explicitly-out.
 - **BOUNDARY** : [Interface boundaries that must not be bypassed — e.g., "All data access through repository layer"]
 - **PATTERN** : [Required architectural pattern — e.g., "Event-driven for all state mutations"]
 
-### Spécifications négatives
+### Spécifications négatives (résumé agent)
 
 <!--
-  What this feature must NOT do. Agents check here before extending scope.
+  Synthèse de §Spécifications négatives pour consultation rapide par les agents.
+  Dupliquer ici les contraintes critiques de la section ci-dessus.
 -->
 
 - **NOT** : [Explicit exclusion — e.g., "Must not modify existing User schema"]

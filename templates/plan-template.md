@@ -136,6 +136,53 @@ Or via `/pm validate-chain` command once in spec-kit workflow.
 
 **Spec→test mapping** : Each acceptance scenario (GWT) in spec.md maps to ≥1 test. Unmapped scenarios are flagged by `/test-quality` as coverage gaps.
 
+### Test pyramid
+
+| Layer | Scope | Tool | Target coverage |
+|-------|-------|------|-----------------|
+| Unit | Business logic (services, utils) | [vitest/pytest/cargo test] | >= 70% lines |
+| Integration | API endpoints + DB | [supertest/httpx] | Critical paths |
+| Contract | External API boundaries | [pact/manual] | All external calls |
+| E2E | User journeys P1 | [playwright/cypress] | P1 stories minimum |
+
+### Verify commands
+
+```bash
+# Run after each phase to validate
+[npm test / pytest / cargo test]
+[npx tsc --noEmit]  # TypeScript typecheck
+[npx vitest run --coverage]  # Coverage report
+```
+
+### Done criteria per phase
+
+| Phase | Done when |
+|-------|-----------|
+| Setup | Project compiles, CI green, dependencies locked |
+| Foundational | Core models + migrations pass, auth scaffold works |
+| User Story N | All acceptance criteria from spec.md verified, tests pass |
+| Polish | Coverage >= thresholds, security checklist passed, docs updated |
+
+---
+
+## Quality Gates *(pre-implementation checklist)*
+
+<!--
+  GATE: Before starting Phase 0 implementation, verify these gates are passed.
+  These reference the conditional sections in spec.md.
+-->
+
+| Gate | Condition | Status | Reference |
+|------|-----------|--------|-----------|
+| Security Gate | Feature exposes endpoints or user data | [ ] Pass / [ ] N/A | spec.md §Security Requirements |
+| UX Gate | Feature has user-facing interface | [ ] Pass / [ ] N/A | spec.md §UX Requirements |
+| Architecture Gate | Feature involves structural choice | [ ] Pass / [ ] N/A | spec.md §Architecture Decisions |
+| Lighthouse Gate | Feature has user-facing pages | [ ] Pass / [ ] N/A | Performance ≥ 90, Accessibility ≥ 90, Best Practices ≥ 90 |
+| Test Traceability | All user stories mapped to tests | [ ] Pass | spec.md §Test Traceability |
+| Spec↔Code Gate | Before Phase 4 (integration) — each acceptance criterion in spec.md has a corresponding test in the recette cahier (epic-*.md), and every Playwright selector is anchored on a `data-testid` or stable ARIA role | [ ] Pass / [ ] N/A | spec.md §Test Traceability + epic-*.md |
+
+**Rule**: If a gate is marked "Pass", the corresponding spec.md section must be filled. If "N/A", the skip justification must be documented in spec.md.
+
 ---
 
 ## Quality Gates

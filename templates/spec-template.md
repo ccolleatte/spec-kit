@@ -81,6 +81,13 @@
 | US1-S2 (Given..When..Then..) | `tests/integration/test_[name].py` | integration | pending |
 | US2-S1 (Given..When..Then..) | `tests/unit/test_[name].py` | unit | pending |
 
+#### Test strategy summary
+
+- **Unit tests** : [What is unit-tested — e.g., "Business logic in services/"]
+- **Integration tests** : [What is integration-tested — e.g., "API endpoints with real DB"]
+- **Contract tests** : [What is contract-tested — e.g., "External API boundaries"]
+- **E2E tests** : [If applicable — e.g., "Critical user journeys via Playwright"]
+
 ### Security traceability *(mandatory for features exposing endpoints or data — gate before Phase 3)*
 
 <!--
@@ -121,6 +128,21 @@
 - What happens when [boundary condition]?
 - How does system handle [error scenario]?
 
+### Contraintes framework test (Playwright)
+
+<!--
+  Complete this section when writing the recette cahier (epic-*.md).
+  Documents known Playwright edge cases to prevent test failures unrelated to the feature.
+-->
+
+| Contrainte | Pattern correct | Anti-pattern |
+|-----------|----------------|--------------|
+| Focus clavier avec hash router | `page.locator('body').click()` avant `keyboard.press('Tab')` | Tab direct → focus reste sur BODY |
+| Strict mode locator | Un seul élément par sélecteur, ou `.first()` explicite | `getByRole('button', {name: /X/})` si plusieurs boutons matchent |
+| Ancrage sélecteur | `data-testid` ou rôle ARIA (`getByRole`) | Sélecteur CSS fragile (`.btn-primary`) |
+| Serveur de test | Lancer backend + frontend manuellement avant Playwright | `webServer` Playwright (peut timeout selon le projet) |
+| DB locale | `npm run test:db:init` (ou équivalent) avant la première exécution | Assumer que la DB est dans l'état correct |
+
 ## Requirements *(mandatory)*
 
 <!--
@@ -154,6 +176,7 @@
 - **SEC-004**: Auth scope — least privilege principle (who can call what, with which credentials)
 - **SEC-005**: Secrets management — no hardcoded fallbacks, fail loud if required env vars missing
 - **SEC-006**: Input validation — Zod/equivalent schema on all public endpoints, size limits, sanitization
+- **SEC-007**: Least privilege data access — RLS policies restrictive by default where row-level security applies (no `USING (true)`)
 
 *Example of non-exposed marker:*
 
@@ -295,6 +318,7 @@ Vide = pas de maybe-later identifié. `jamais` = explicitly-out.
 -->
 
 - **NOT** : [Explicit exclusion — e.g., "Must not modify existing User schema"]
+- **NOT** : [Explicit exclusion — e.g., "Must not introduce synchronous calls to external APIs"]
 - **NOT** : [Explicit exclusion — e.g., "Must not bypass role validation middleware"]
 
 ### Gate HITL
