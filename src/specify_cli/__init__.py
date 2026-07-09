@@ -573,11 +573,22 @@ def handle_vscode_settings(sub_item, dest_file, rel_path, verbose=False, tracker
         if verbose and not tracker:
             console.print(f"[{color}]{message}[/] {rel_path}")
 
+    backup_file = dest_file.with_suffix('.json.bak')
+    backed_up = False
+
+    def backup_existing():
+        # User config is about to be overwritten — keep a recoverable copy
+        nonlocal backed_up
+        if dest_file.exists() and not backed_up:
+            shutil.copy2(dest_file, backup_file)
+            backed_up = True
+
     try:
         with open(sub_item, 'r', encoding='utf-8') as f:
             new_settings = json.load(f)
 
         if dest_file.exists():
+            backup_existing()
             merged = merge_json_files(dest_file, new_settings, verbose=verbose and not tracker)
             with open(dest_file, 'w', encoding='utf-8') as f:
                 json.dump(merged, f, indent=4)
@@ -588,7 +599,11 @@ def handle_vscode_settings(sub_item, dest_file, rel_path, verbose=False, tracker
             log("Copied (no existing settings.json):", "blue")
 
     except Exception as e:
-        log(f"Warning: Could not merge, copying instead: {e}", "yellow")
+        backup_existing()
+        saved = f" (original saved to {backup_file.name})" if backed_up else ""
+        console.print(
+            f"[yellow]Warning: Could not merge {rel_path}, copying instead{saved}: {e}[/yellow]"
+        )
         shutil.copy2(sub_item, dest_file)
 
 def merge_json_files(existing_path: Path, new_content: dict, verbose: bool = False) -> dict:
@@ -611,8 +626,14 @@ def merge_json_files(existing_path: Path, new_content: dict, verbose: bool = Fal
     try:
         with open(existing_path, 'r', encoding='utf-8') as f:
             existing_content = json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError):
-        # If file doesn't exist or is invalid, just use new content
+    except FileNotFoundError:
+        return new_content
+    except json.JSONDecodeError as e:
+        # Existing user config is unreadable and will be replaced — never silently
+        console.print(
+            f"[yellow]Warning: existing {existing_path.name} is invalid JSON, "
+            f"replacing it: {e}[/yellow]"
+        )
         return new_content
 
     def deep_merge(base: dict, update: dict) -> dict:
