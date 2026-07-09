@@ -48,9 +48,9 @@ env/
 *.zip
 sdd-*/
 
-# Test artifacts
+# Test artifacts (root only — do not match _docs/reports/)
 .coverage
-reports/
+/reports/
 
 # Claude Code - local configuration (not shared)
 .claude/settings.local.json
